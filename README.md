@@ -4,7 +4,7 @@
 
 ### `Responsive Design`
 
-Dispply the full content on all scrren szie, for the moibe screen you just need to swipe or scroll left and right.
+The full content Displied in different scrrens szie, for the moibe screen you just need to swipe or scroll left and right.
 
 ### `API`
 
