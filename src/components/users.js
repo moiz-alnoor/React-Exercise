@@ -6,26 +6,14 @@ import axios from "axios";
 import UserDetails from "./user.details";
 import History from "./History";
 import dateFormat, { masks } from "dateformat";
-import queryString from './query.string'
-import { BallTriangle } from  'react-loader-spinner'
-
-
+import queryString from "./query.string";
+import { BallTriangle } from "react-loader-spinner";
+import {customStyles} from './custom.css'
 export const UserContext = createContext();
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
+
 
 function Users() {
-
-
   const [loading, setLoading] = useState(true);
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [isNumber, setIsnumber] = useState(false);
@@ -37,9 +25,7 @@ function Users() {
   const [imgPath, setImgPath] = useState(false);
   const [isObj, setIsObj] = useState(false);
 
-  useEffect(() => {
- 
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     axios
@@ -47,20 +33,21 @@ function Users() {
       .then((res) => {
         const users = res.data;
         setUser(users.results);
-        setLoading(false)
-      }).catch(err => err)
+        setLoading(false);
+      })
+      .catch((err) => err);
   }, [pageNumber]);
 
   useEffect(() => {
     setFindUser(findUser);
   }, [findUser]);
-//pagination next
+  //pagination next
   const next = (pageNumber) => {
     pageNumber++;
     setPageNumber(pageNumber);
     History.push("/search?q=" + pageNumber);
   };
-//pagination previous
+  //pagination previous
   const previous = (pageNumber) => {
     pageNumber--;
     if (pageNumber > 0) {
@@ -68,7 +55,7 @@ function Users() {
       History.push("/search?q=" + pageNumber);
     }
   };
-//search by user name 
+  //search by user name
   const onSearch = (val) => {
     if (!isNaN(+val.target.value) && val.target.value !== "") {
       setIsnumber(true);
@@ -80,12 +67,12 @@ function Users() {
     );
     setFindUser(findUser);
   };
-// click anywhere will close the modal
+  // click anywhere will close the modal
   function closeModal() {
     setIsOpen(false);
   }
 
-//open modal for user details 
+  //open modal for user details
   const userDetails = (val) => {
     setIsOpen(true);
 
@@ -103,15 +90,16 @@ function Users() {
   return (
     <>
       <div>
-
-  
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={customStyles}
           contentLabel="Example Modal"
         >
-          <AiFillCloseCircle  onClick={closeModal} className="hover:cursor-pointer mb-3"/>
+          <AiFillCloseCircle
+            onClick={closeModal}
+            className="hover:cursor-pointer mb-3"
+          />
 
           {isImg === true ? (
             <UserContext.Provider value={userDetail}>
@@ -123,10 +111,9 @@ function Users() {
         </Modal>
       </div>
 
-
       <div className="flex justify-center my-10">
         <input
-        className=" w-6/6"
+          className=" w-6/6"
           type="text"
           name="name"
           placeholder="Search by username ..."
@@ -140,173 +127,174 @@ function Users() {
         )}
       </div>
 
-
       <div className="flex justify-center">
-  {loading?
-  <div className="mt-56">
-  <BallTriangle
-    height="100"
-    width="100"
-    color=' rgb(74 222 128)'
-    ariaLabel='loading'
-  /> </div>:
-  <section className="container mx-auto p-6 font-mono">
-  <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
-    <div className="w-full overflow-x-auto">
-      <table className="w-full">
-        <thead>
-          <tr className="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
-            <th className="px-4 py-3">fullname</th>
-            <th className="px-4 py-3">username</th>
-            <th className="px-4 py-3">email</th>
-            <th className="px-4 py-3">DOB</th>
-            <th className="px-4 py-3">street</th>
-            <th className="px-4 py-3">city</th>
-            <th className="px-4 py-3">country</th>
-            <th className="px-4 py-3">postcode</th>
-            <th className="px-4 py-3">phone number</th>
-          </tr>
-        </thead>
-        <tbody className="bg-white">
-          {users && findUser.length == 0
-            ? users.map((user, index) => (
-                  <tr key={index} className="text-gray-700">
-                    <td  className="px-4 py-3 border">
-                      <div className="flex items-center text-sm">
-                        <div className="relative w-8 h-8 mr-3 rounded-full md:block">
-                          <button
-                            onClick={() =>
-                              userDetails(user.picture.large)
-                            }
-                          >
-                            <img
-                              src={user.picture.thumbnail}
-                              className="object-cover w-full h-full rounded-full"
-                            />
-                          </button>
-                        </div>
-                        <div>
-                          <p
-                            onClick={() => userDetails(user)}
-                            className=" hover:cursor-pointer font-semibold text-black"
-                          >
-                            {user.name.first} {user.name.last}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-ms font-semibold border">
-                      {user.login.username}
-                    </td>
-                    <td className="px-4 py-3 text-xs border">
-                      <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">
-                        {" "}
-                        {user.email}{" "}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-sm border">
-                      {dateFormat(user.dob.date, "fullDate")}
-                    </td>
-                    <td className="px-4 py-3 text-ms font-semibold border">
-                      {user.location.street.name}
-                    </td>
-                    <td className="px-4 py-3 text-ms font-semibold border">
-                      {user.location.city}
-                    </td>
+        {loading ? (
+          <div className="mt-56">
+            <BallTriangle
+              height="100"
+              width="100"
+              color=" rgb(74 222 128)"
+              ariaLabel="loading"
+            />{" "}
+          </div>
+        ) : (
+          <section className="container mx-auto p-6 font-mono">
+            <div className="w-full mb-8 overflow-hidden rounded-lg shadow-lg">
+              <div className="w-full overflow-x-auto">
+                <table className="w-full">
+                  <thead>
+                    <tr className="text-md font-semibold tracking-wide text-left text-gray-900 bg-gray-100 uppercase border-b border-gray-600">
+                      <th className="px-4 py-3">fullname</th>
+                      <th className="px-4 py-3">username</th>
+                      <th className="px-4 py-3">email</th>
+                      <th className="px-4 py-3">DOB</th>
+                      <th className="px-4 py-3">street</th>
+                      <th className="px-4 py-3">city</th>
+                      <th className="px-4 py-3">country</th>
+                      <th className="px-4 py-3">postcode</th>
+                      <th className="px-4 py-3">phone number</th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white">
+                    {users && findUser.length == 0
+                      ? users.map((user, index) => (
+                          <tr key={index} className="text-gray-700">
+                            <td className="px-4 py-3 border">
+                              <div className="flex items-center text-sm">
+                                <div className="relative w-8 h-8 mr-3 rounded-full md:block">
+                                  <button
+                                    onClick={() =>
+                                      userDetails(user.picture.large)
+                                    }
+                                  >
+                                    <img
+                                      src={user.picture.thumbnail}
+                                      className="object-cover w-full h-full rounded-full"
+                                    />
+                                  </button>
+                                </div>
+                                <div>
+                                  <p
+                                    onClick={() => userDetails(user)}
+                                    className=" hover:cursor-pointer font-semibold text-black"
+                                  >
+                                    {user.name.first} {user.name.last}
+                                  </p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-4 py-3 text-ms font-semibold border">
+                              {user.login.username}
+                            </td>
+                            <td className="px-4 py-3 text-xs border">
+                              <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">
+                                {" "}
+                                {user.email}{" "}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3 text-sm border">
+                              {dateFormat(user.dob.date, "fullDate")}
+                            </td>
+                            <td className="px-4 py-3 text-ms font-semibold border">
+                              {user.location.street.name}
+                            </td>
+                            <td className="px-4 py-3 text-ms font-semibold border">
+                              {user.location.city}
+                            </td>
 
-                    <td className="px-4 py-3 text-ms font-semibold border">
-                      {user.location.country}
-                    </td>
-                    <td className="px-4 py-3 text-sm border">
-                      {user.location.postcode}
-                    </td>
-                    <td className="px-4 py-3 text-sm border ">
-                      <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">{user.phone.replace(/-/g, "")} </span>
-                    </td>
-                  </tr>
-             
-              ))
-            : findUser.map((user, index) => (
-        
-                  <tr key={index} className="text-gray-700">
-                    <td  className="px-4 py-3 border">
-                      <div className="flex items-center text-sm">
-                        <div className="relative w-8 h-8 mr-3 rounded-full md:block">
-                          <button
-                            onClick={() =>
-                              userDetails(user.picture.large)
-                            }
-                          >
-                            <img
-                              src={user.picture.thumbnail}
-                              className="object-cover w-full h-full rounded-full"
-                            />
-                          </button>
-                        </div>
-                        <div>
-                          <p
-                            onClick={() => userDetails(user)}
-                            className=" hover:cursor-pointer font-semibold text-black"
-                          >
-                            {user.name.first} {user.name.last}
-                          </p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 text-ms font-semibold border">
-                      {user.login.username}
-                    </td>
-                    <td className="px-4 py-3 text-xs border">
-                      <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">
-                        {" "}
-                        {user.email}{" "}
-                      </span>
-                    </td>
-                    <td className="px-4 py-3 text-sm border">
-                      {dateFormat(user.dob.date, "fullDate")}
-                    </td>
-                    <td className="px-4 py-3 text-ms font-semibold border">
-                      {user.location.street.name}
-                    </td>
-                    <td className="px-4 py-3 text-ms font-semibold border">
-                      {user.location.city}
-                    </td>
+                            <td className="px-4 py-3 text-ms font-semibold border">
+                              {user.location.country}
+                            </td>
+                            <td className="px-4 py-3 text-sm border">
+                              {user.location.postcode}
+                            </td>
+                            <td className="px-4 py-3 text-sm border ">
+                              <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">
+                                {user.phone.replace(/-/g, "")}{" "}
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      : findUser.map((user, index) => (
+                          <tr key={index} className="text-gray-700">
+                            <td className="px-4 py-3 border">
+                              <div className="flex items-center text-sm">
+                                <div className="relative w-8 h-8 mr-3 rounded-full md:block">
+                                  <button
+                                    onClick={() =>
+                                      userDetails(user.picture.large)
+                                    }
+                                  >
+                                    <img
+                                      src={user.picture.thumbnail}
+                                      className="object-cover w-full h-full rounded-full"
+                                    />
+                                  </button>
+                                </div>
+                                <div>
+                                  <p
+                                    onClick={() => userDetails(user)}
+                                    className=" hover:cursor-pointer font-semibold text-black"
+                                  >
+                                    {user.name.first} {user.name.last}
+                                  </p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-4 py-3 text-ms font-semibold border">
+                              {user.login.username}
+                            </td>
+                            <td className="px-4 py-3 text-xs border">
+                              <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">
+                                {" "}
+                                {user.email}{" "}
+                              </span>
+                            </td>
+                            <td className="px-4 py-3 text-sm border">
+                              {dateFormat(user.dob.date, "fullDate")}
+                            </td>
+                            <td className="px-4 py-3 text-ms font-semibold border">
+                              {user.location.street.name}
+                            </td>
+                            <td className="px-4 py-3 text-ms font-semibold border">
+                              {user.location.city}
+                            </td>
 
-                    <td className="px-4 py-3 text-ms font-semibold border">
-                      {user.location.country}
-                    </td>
-                    <td className="px-4 py-3 text-sm border">
-                      {user.location.postcode}
-                    </td>
-                    <td className="px-4 py-3 text-sm border">
-                    <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">{user.phone.replace(/-/g, "")} </span>
-               
-                    </td>
-                  </tr>
-              ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-  <div className="flex justify-center my-10">
-    <button
-      className=" border-4 border-b-green-400  border-white p-8 w-60 m-3"
-      onClick={() => previous(pageNumber)}
-    >
-      previous
-    </button>
-    <button
-      className=" border-4 border-b-green-400  border-white p-8 w-60 m-3"
-      onClick={() => next(pageNumber)}
-    >
-      Next{" "}
-    </button>
-  </div>
-</section>
-}
-
-</div>
-       </>
+                            <td className="px-4 py-3 text-ms font-semibold border">
+                              {user.location.country}
+                            </td>
+                            <td className="px-4 py-3 text-sm border">
+                              {user.location.postcode}
+                            </td>
+                            <td className="px-4 py-3 text-sm border">
+                              <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">
+                                {user.phone.replace(/-/g, "")}{" "}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="flex justify-center my-10">
+              <button
+                className=" border-4 border-b-green-400  border-white p-8 w-60 m-3"
+                onClick={() => previous(pageNumber)}
+              >
+                previous
+              </button>
+              <button
+                className=" border-4 border-b-green-400  border-white p-8 w-60 m-3"
+                onClick={() => next(pageNumber)}
+              >
+                Next{" "}
+              </button>
+            </div>
+          </section>
+        )}
+      </div>
+    </>
   );
 }
 
