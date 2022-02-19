@@ -2,6 +2,10 @@
 
 ## `solution`
 
+### `Responsive Design`
+
+Dispply the full content on all scrren szie, for the moibe screen you just need to swipe or scroll left and right.
+
 ### `API`
 
 Useing the `randomuser.me` api to create a REST API,10 users usres recored are returned.
