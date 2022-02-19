@@ -4,7 +4,7 @@
 
 ### `Responsive Design`
 
-The full content Displied in different scrrens szie, for the moibe screen you just need to swipe or scroll left and right.
+The full content Displied in different screen szie, for the mobile screen you just need to swipe or scroll left and right.
 
 ### `API`
 
