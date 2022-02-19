@@ -4,7 +4,7 @@
 
 ### `API`
 
-Useing the randomuser.me api to create a REST API,10 users usres recored are returned.
+Useing the `randomuser.me` api to create a REST API,10 users usres recored are returned.
 
 ### `Data Fetched`
 
