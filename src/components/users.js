@@ -279,7 +279,8 @@ function Users() {
                       {user.location.postcode}
                     </td>
                     <td className="px-4 py-3 text-sm border">
-                      {user.phone.replace(/-/g, "")}
+                    <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-sm">{user.phone.replace(/-/g, "")} </span>
+               
                     </td>
                   </tr>
               ))}
