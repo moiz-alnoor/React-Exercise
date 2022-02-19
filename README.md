@@ -2,6 +2,10 @@
 
 ## `solution`
 
+### `Responsive Design`
+
+The full content Displied in different screens szie, for the mobile screen you just need to swipe or scroll left and right.
+
 ### `API`
 
 Useing the `randomuser.me` api to create a REST API,10 users usres recored are returned.
