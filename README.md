@@ -20,4 +20,4 @@ On page refresh user will be on the same page and with same result.
 
 ## `To run the app`
 
-install npm, and run npm start inside the app directory :) 
+run `npm install`, and `npm start` inside the app directory :) 
