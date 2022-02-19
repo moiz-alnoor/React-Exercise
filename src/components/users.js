@@ -288,7 +288,7 @@ function Users() {
                 className=" border-4 border-b-green-400  border-white p-8 w-60 m-3"
                 onClick={() => next(pageNumber)}
               >
-                Next{" "}
+                next{" "}
               </button>
             </div>
           </section>
