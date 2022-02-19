@@ -1,11 +1,12 @@
-import { useEffect, useState, createContext, useCallback } from "react";
+import { useEffect, useState, createContext } from "react";
+import { AiFillCloseCircle } from "react-icons/ai";
 import React from "react";
 import Modal from "react-modal";
 import axios from "axios";
 import UserDetails from "./user.details";
 import History from "./History";
 import dateFormat, { masks } from "dateformat";
-
+import queryString from './query.string'
 export const UserContext = createContext();
 
 const customStyles = {
@@ -22,7 +23,7 @@ const customStyles = {
 function Users() {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [isNumber, setIsnumber] = useState(false);
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageNumber, setPageNumber] = useState(queryString());
   const [users, setUser] = useState([]);
   const [userDetail, setUserDetails] = useState([]);
   const [findUser, setFindUser] = useState([]);
@@ -31,13 +32,8 @@ function Users() {
   const [isObj, setIsObj] = useState(false);
 
   useEffect(() => {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const q = urlParams.get("q");
-    parseInt(q);
-    setPageNumber(q);
-    console.log(pageNumber)
-  }, [pageNumber]);
+ 
+  }, []);
 
   useEffect(() => {
     axios
@@ -77,7 +73,7 @@ function Users() {
     );
     setFindUser(findUser);
   };
-
+// click anywhere will close the modal
   function closeModal() {
     setIsOpen(false);
   }
@@ -106,6 +102,8 @@ function Users() {
           style={customStyles}
           contentLabel="Example Modal"
         >
+          <AiFillCloseCircle  onClick={closeModal} className="hover:cursor-pointer mb-3"/>
+
           {isImg === true ? (
             <UserContext.Provider value={userDetail}>
               <UserDetails />
@@ -118,11 +116,12 @@ function Users() {
 
       <div className="flex justify-center my-10">
         <input
+        className=" w-6/6"
           type="text"
           name="name"
-          placeholder="Search by user name ..."
+          placeholder="Search by username ..."
           onChange={onSearch}
-          className="w-1/3 py-2 border-b-4 border-green-400 outline-none focus:border-green-400"
+          className=" w-2/5 py-2 border-b-4 border-green-400 outline-none focus:border-green-400"
         />
         {isNumber ? (
           <span className="text-red-300">Please text only </span>
